@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts nodemon",
+    "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -17,6 +18,11 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@tanstack/react-query": "4.36.1",
+    "@trpc/client": "^10.44.1",
+    "@trpc/next": "^10.44.1",
+    "@trpc/react-query": "^10.44.1",
+    "@trpc/server": "^10.44.1",
     "@types/html-minifier-terser": "^7.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -25,6 +31,7 @@
     "express": "^4.18.2",
     "lucide-react": "^0.294.0",
     "next": "14.0.4",
+    "nodemailer": "^6.9.7",
     "payload": "^2.4.0",
     "react": "^18",
     "react-dom": "^18",
@@ -37,6 +44,7 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
