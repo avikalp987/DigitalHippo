@@ -15,10 +15,6 @@ import { trpc } from "@/trpc/client";
 
 const Page = () => {
 
-   
-
-    
-
     const { 
         register,
         handleSubmit,
@@ -29,7 +25,6 @@ const Page = () => {
 
     //const { data } = trpc.anyApiRoute.useQuery();
     const {mutate,isLoading} = trpc.auth.createPayloadUSer.useMutation({
-
     })
 
     const onSubmit = ({email,password} : TAuthCredentialsValidator) => {
