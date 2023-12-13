@@ -11,6 +11,9 @@ import { useForm } from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod"
 import { TAuthCredentialsValidator, authCredentialsValidator } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
+import { toast } from "sonner";
+import { ZodError } from "zod";
+import { useRouter } from "next/navigation";
 
 
 const Page = () => {
@@ -23,8 +26,29 @@ const Page = () => {
         resolver: zodResolver(authCredentialsValidator),
     });
 
+    const router = useRouter();
     //const { data } = trpc.anyApiRoute.useQuery();
     const {mutate,isLoading} = trpc.auth.createPayloadUSer.useMutation({
+        onError : (err) => {
+            if(err.data?.code === "CONFLICT"){
+                toast.error("This email is already in use. Sign in instead?")
+                return;
+            }
+
+            if(err instanceof ZodError){
+                toast.error(err.issues[0].message);
+                return;
+            }
+
+            toast.error("Something went wrong. Please try again.");
+        },
+
+        onSuccess : ({sentToEmail}) => {
+            toast.success(`Verification email sent to ${sentToEmail}.`)
+            router.push("/verify-email?to="+sentToEmail);
+        }
+
+
     })
 
     const onSubmit = ({email,password} : TAuthCredentialsValidator) => {
@@ -65,6 +89,9 @@ const Page = () => {
                                     })}
                                     placeholder="you@example.com"
                                     />  
+                                    {errors?.email && (
+                                        <p className="text-sm text-red-500">{errors.email.message}</p>
+                                    )}
                                 </div>
 
 
@@ -79,6 +106,9 @@ const Page = () => {
                                     })}
                                     placeholder="password"
                                     />
+                                    {errors?.password && (
+                                        <p className="text-red-500 text-sm">{errors.password.message}</p>
+                                    )}
 
                                     
                                 </div>
