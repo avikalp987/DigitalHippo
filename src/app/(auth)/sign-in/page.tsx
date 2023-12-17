@@ -61,6 +61,7 @@ const Page = () => {
             }
 
             router.push("/");
+            router.refresh();
         },
         
         onError : (error) => {
